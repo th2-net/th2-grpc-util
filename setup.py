@@ -1,0 +1,83 @@
+#   Copyright 2020-2020 Exactpro (Exactpro Systems Limited)
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+import os
+from distutils.cmd import Command
+
+import grpc_tools
+import pkg_resources
+from grpc_tools import protoc, command
+from setuptools import setup, find_packages
+
+
+class BuildPackageProtos(Command):
+
+    description = 'build proto protobuf modules'
+    user_options = [('strict-mode', 's',
+                     'exit with non-zero value if the proto compiling fails.')]
+
+    def initialize_options(self):
+        self.strict_mode = False
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        proto_path = os.path.abspath('src/proto')
+        gen_path = os.path.abspath('src/gen/main/python')
+
+        if not os.path.exists(gen_path):
+            os.mkdir(gen_path)
+
+        proto_files = []
+        for root, _, files in os.walk(proto_path):
+            for filename in files:
+                if filename.endswith('.proto'):
+                    proto_files.append(os.path.abspath(os.path.join(root, filename)))
+
+        well_known_protos_include = pkg_resources.resource_filename('grpc_tools', '_proto')
+
+        for proto_file in proto_files:
+            command = [
+                          'grpc_tools.protoc',
+                          '--proto_path={}'.format(proto_path),
+                          '--proto_path={}'.format(well_known_protos_include),
+                          '--python_out={}'.format(gen_path),
+                          '--grpc_python_out={}'.format(gen_path),
+                      ] + [proto_file]
+            if protoc.main(command) != 0:
+                if self.strict_mode:
+                    raise Exception('error: {} failed'.format(command))
+
+
+setup(
+    name='grpc-generator-template',
+    version=f"1.1.1",
+    install_requires=[
+        'google-api-core==1.22.2',
+        'setuptools==50.2.0',
+        'grpcio==1.31.0',
+    ],
+    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/grpc-generator-template',
+    license='Apache License 2.0',
+    author='TH2-devs',
+    python_requires='>=3.7',
+    author_email='th2-devs@exactprosystems.com',
+    description='TH2-common-python',
+    # long_description=open('README.md').read(),
+    packages=[''],
+    package_dir={'': 'src/main/grpc/proto'},
+    cmdclass={
+        'build_proto_modules': BuildPackageProtos,
+    }
+)
