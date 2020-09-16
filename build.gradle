@@ -39,6 +39,15 @@ ext {
 
 repositories {
     mavenCentral()
+    maven {
+        name 'Schema snapshot'
+        url 'http://artifactory5.exp.exactpro.com/artifactory/th2-schema-snapshot-local'
+    }
+    maven {
+        name 'Artifactory snapshot'
+        url 'http://artifactory5.exp.exactpro.com/artifactory/libs-snapshot'
+    }
+    mavenLocal()
 }
 
 dependencies {
@@ -56,11 +65,10 @@ dependencies {
 sourceSets {
     main {
         proto {
-            srcDirs 'src/proto'
+            srcDirs 'src/main/proto'
         }
-
         java {
-            srcDirs 'src/gen/main/java', 'src/gen/main/grpc'
+            srcDirs 'src/gen/main/java', 'src/gen/main/grpc', 'src/gen/main/services'
         }
     }
 }
@@ -88,8 +96,8 @@ compileJava.dependsOn.add('generateServices')
 
 serviceGeneration {
     settings {
-        protoDir = "./src/proto"
-        outDir = "./src/gen/main/antlr"
+        protoDir = "src/main/proto"
+        outDir = "src/gen/main/services"
     }
 }
 
