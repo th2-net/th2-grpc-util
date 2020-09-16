@@ -1,17 +1,27 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            name 'Schema snapshot'
+            url 'http://artifactory5.exp.exactpro.com/artifactory/th2-schema-snapshot-local'
+        }
+        maven {
+            name 'Artifactory snapshot'
+            url 'http://artifactory5.exp.exactpro.com/artifactory/libs-snapshot'
+        }
+        mavenLocal()
     }
     dependencies {
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.13'
+        classpath "com.exactpro.th2:service-generator:1.3.1-SNAPSHOT"
     }
 }
 
-plugins {
-    id "com.google.protobuf" version "0.8.13"
-    id "maven-publish"
-    id "java"
-}
+apply plugin: "java"
+apply plugin: "com.google.protobuf"
+apply plugin: "com.exactpro.th2.service-generator"
+apply plugin: "maven-publish"
+
 
 group = 'com.exactpro.grpc'
 version = "1.0-SNAPSHOT"
@@ -39,6 +49,8 @@ dependencies {
     compile "io.grpc:grpc-netty:${grpcVersion}"
 
     compile "javax.annotation:javax.annotation-api:1.3.2"
+
+    compile "com.exactpro.th2:service-generator:1.3.1-SNAPSHOT"
 }
 
 sourceSets {
@@ -68,6 +80,16 @@ protobuf {
             grpc {}
         }
         ofSourceSet('main')
+    }
+}
+
+generateServices.dependsOn.add('generateProto')
+compileJava.dependsOn.add('generateServices')
+
+serviceGeneration {
+    settings {
+        protoDir = "./src/proto"
+        outDir = "./src/gen/main/antlr"
     }
 }
 

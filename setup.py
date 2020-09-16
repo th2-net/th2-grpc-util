@@ -11,10 +11,9 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-import os
-from distutils.cmd import Command
 
-import grpc_tools
+from distutils.cmd import Command
+import os
 import pkg_resources
 from grpc_tools import protoc, command
 from setuptools import setup, find_packages
@@ -34,7 +33,7 @@ class BuildPackageProtos(Command):
 
     def run(self):
         proto_path = os.path.abspath('src/proto')
-        gen_path = os.path.abspath('src/gen/main/python')
+        gen_path = os.path.abspath('src/gen/')
 
         if not os.path.exists(gen_path):
             os.mkdir(gen_path)
@@ -64,9 +63,10 @@ setup(
     name='grpc-generator-template',
     version=f"1.1.1",
     install_requires=[
-        'google-api-core==1.22.2',
         'setuptools==50.2.0',
         'grpcio==1.31.0',
+        'google-api-core==1.22.2',
+        'twine'
     ],
     url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/grpc-generator-template',
     license='Apache License 2.0',
@@ -75,8 +75,9 @@ setup(
     author_email='th2-devs@exactprosystems.com',
     description='TH2-common-python',
     # long_description=open('README.md').read(),
-    packages=[''],
-    package_dir={'': 'src/main/grpc/proto'},
+    packages=['proto', 'gen'],
+    package_dir={'proto': 'src/proto', 'gen': 'src/gen'},
+    package_data={'proto': ['*.proto']},
     cmdclass={
         'build_proto_modules': BuildPackageProtos,
     }
