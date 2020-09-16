@@ -1,0 +1,1 @@
+# Grpc generator template
