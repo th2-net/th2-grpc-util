@@ -70,7 +70,7 @@ setup(
     python_requires='>=3.7',
     author_email='th2-devs@exactprosystems.com',
     description='TH2-common-python',
-    # long_description=open('README.md').read(),
+    long_description=open('README.md').read(),
     packages=['proto', 'gen'],
     package_dir={'proto': 'src/main/proto', 'gen': 'src/gen/main/python'},
     package_data={'proto': ['*.proto']},
