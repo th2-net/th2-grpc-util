@@ -13,9 +13,9 @@
 #   limitations under the License.
 
 from distutils.cmd import Command
-import os
 import pkg_resources
-from setuptools import setup, find_packages
+import os
+from setuptools import setup
 
 
 class BuildPackageProtos(Command):
@@ -55,10 +55,6 @@ class BuildPackageProtos(Command):
                 if self.strict_mode:
                     raise Exception('error: {} failed'.format(command))
 
-
-gen_path = os.path.abspath('src/gen/main/python')
-if not os.path.exists(gen_path):
-    os.mkdir(gen_path)
 
 setup(
     name='grpc-generator-template',

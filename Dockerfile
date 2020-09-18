@@ -13,4 +13,5 @@ WORKDIR /home/grpc-generator
 COPY --from=generator /home/grpc-generator .
 RUN pip install .
 RUN python setup.py build_proto_modules
-RUN twine upload ...
+RUN python setup.py sdist
+RUN twine upload --repository-url $PYPI_REPOSITORY_URL --username $PYPI_USER --password $PYPI_PASSWORD dist/*
