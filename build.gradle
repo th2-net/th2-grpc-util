@@ -12,7 +12,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.13'
+        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.13"
         classpath "com.exactpro.th2:service-generator:1.3.1-SNAPSHOT"
     }
 }
@@ -47,6 +47,7 @@ repositories {
 }
 
 dependencies {
+    compile "com.google.protobuf:protobuf-protobuf:${protobufVersion}"
     compile "com.google.protobuf:protobuf-java-util:${protobufVersion}"
     compile "io.grpc:grpc-protobuf:${grpcVersion}"
     compile "io.grpc:grpc-stub:${grpcVersion}"
