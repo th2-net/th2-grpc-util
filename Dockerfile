@@ -3,7 +3,7 @@ WORKDIR /home/grpc-generator
 COPY . .
 RUN gradle clean publish
 
-FROM nexus.exactpro.com:9000/th2-python-service-generator:1.0.7.4 as generator
+FROM nexus.exactpro.com:9000/th2-python-service-generator:1.0.8.5 as generator
 WORKDIR /home/grpc-generator
 COPY --from=builder /home/grpc-generator .
 RUN /home/th2-python-service-generator/bin/th2-python-service-generator -p ./src/main/proto -w PythonServiceWriter -o ./src/gen/main/python

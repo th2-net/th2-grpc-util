@@ -22,10 +22,6 @@ apply plugin: "com.google.protobuf"
 apply plugin: "com.exactpro.th2.service-generator"
 apply plugin: "maven-publish"
 
-
-group = 'com.exactpro.grpc'
-version = "1.0-SNAPSHOT"
-
 sourceCompatibility = 1.11
 targetCompatibility = 1.11
 
@@ -33,7 +29,7 @@ ext {
     grpcVersion         = '1.32.1'
     protobufVersion     = '3.13.0'
 
-    genDir              = file('src/gen')
+    genDir              = file("${project.rootDir}/src/gen")
     sharedDir           = file("${project.rootDir}/shared")
 }
 
@@ -105,6 +101,11 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+
+            groupId = 'com.exactpro'
+            artifactId = 'grpc-generator'
+            version = '1.0'
+
         }
     }
     repositories {
