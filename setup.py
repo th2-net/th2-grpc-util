@@ -15,7 +15,6 @@
 from distutils.cmd import Command
 import os
 import pkg_resources
-from grpc_tools import protoc, command
 from setuptools import setup, find_packages
 
 
@@ -32,11 +31,8 @@ class BuildPackageProtos(Command):
         pass
 
     def run(self):
-        proto_path = os.path.abspath('src/proto')
-        gen_path = os.path.abspath('src/gen/')
-
-        if not os.path.exists(gen_path):
-            os.mkdir(gen_path)
+        proto_path = os.path.abspath('src/main/proto')
+        gen_path = os.path.abspath('src/gen/main/python')
 
         proto_files = []
         for root, _, files in os.walk(proto_path):
@@ -46,6 +42,7 @@ class BuildPackageProtos(Command):
 
         well_known_protos_include = pkg_resources.resource_filename('grpc_tools', '_proto')
 
+        from grpc_tools import protoc
         for proto_file in proto_files:
             command = [
                           'grpc_tools.protoc',
@@ -59,13 +56,16 @@ class BuildPackageProtos(Command):
                     raise Exception('error: {} failed'.format(command))
 
 
+gen_path = os.path.abspath('src/gen/main/python')
+if not os.path.exists(gen_path):
+    os.mkdir(gen_path)
+
 setup(
     name='grpc-generator-template',
     version=f"1.1.1",
     install_requires=[
-        'setuptools==50.2.0',
-        'grpcio==1.31.0',
-        'google-api-core==1.22.2',
+        'grpcio-tools',
+        'google-api-core',
         'twine'
     ],
     url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/grpc-generator-template',
@@ -76,7 +76,7 @@ setup(
     description='TH2-common-python',
     # long_description=open('README.md').read(),
     packages=['proto', 'gen'],
-    package_dir={'proto': 'src/proto', 'gen': 'src/gen'},
+    package_dir={'proto': 'src/main/proto', 'gen': 'src/gen/main/python'},
     package_data={'proto': ['*.proto']},
     cmdclass={
         'build_proto_modules': BuildPackageProtos,
