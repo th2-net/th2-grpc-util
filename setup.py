@@ -56,6 +56,10 @@ class BuildPackageProtos(Command):
                     raise Exception('error: {} failed'.format(command))
 
 
+gen_path = os.path.abspath('src/gen/main/python')
+if not os.path.exists(gen_path):
+    os.makedirs(gen_path)
+
 setup(
     name='grpc-generator-template',
     version=f"1.1.1",
