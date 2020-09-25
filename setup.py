@@ -13,14 +13,16 @@
 #   limitations under the License.
 
 from distutils.cmd import Command
+from setuptools.command.sdist import sdist
+import shutil
 import pkg_resources
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
-class BuildPackageProtos(Command):
+class ProtoGenerator(Command):
 
-    description = 'build proto protobuf modules'
+    description = 'build protobuf modules'
     user_options = [('strict-mode', 's',
                      'exit with non-zero value if the proto compiling fails.')]
 
@@ -33,6 +35,9 @@ class BuildPackageProtos(Command):
     def run(self):
         proto_path = os.path.abspath('src/main/proto')
         gen_path = os.path.abspath('src/gen/main/python')
+
+        if not os.path.exists(gen_path):
+            os.makedirs(gen_path)
 
         proto_files = []
         for root, _, files in os.walk(proto_path):
@@ -56,13 +61,24 @@ class BuildPackageProtos(Command):
                     raise Exception('error: {} failed'.format(command))
 
 
-gen_path = os.path.abspath('src/gen/main/python')
-if not os.path.exists(gen_path):
-    os.makedirs(gen_path)
+class CustomDist(sdist):
+
+    def run(self):
+        package_name = self.distribution.metadata.name
+
+        shutil.copytree('src/main/proto', f'{package_name}/proto')
+        shutil.copytree('src/gen/main/python', f'{package_name}/grpc')
+
+        sdist.run(self)
+
+        shutil.rmtree(package_name, ignore_errors=True)
+
+
+package_name = 'grpc-generator-template'
 
 setup(
-    name='grpc-generator-template',
-    version=f"1.1.1",
+    name=package_name,
+    version=f"1.0",
     install_requires=[
         'grpcio-tools',
         'google-api-core',
@@ -73,12 +89,12 @@ setup(
     author='TH2-devs',
     python_requires='>=3.7',
     author_email='th2-devs@exactprosystems.com',
-    description='TH2-common-python',
+    description='grpc-generator-template',
     long_description=open('README.md').read(),
-    packages=['proto', 'gen'],
-    package_dir={'proto': 'src/main/proto', 'gen': 'src/gen/main/python'},
-    package_data={'proto': ['*.proto']},
+    packages=[package_name, f'{package_name}/proto', f'{package_name}/grpc'],
+    package_data={f'{package_name}/proto': ['*.proto']},
     cmdclass={
-        'build_proto_modules': BuildPackageProtos,
+        'generate': ProtoGenerator,
+        'sdist': CustomDist
     }
 )

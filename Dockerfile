@@ -9,9 +9,12 @@ COPY --from=builder /home/grpc-generator .
 RUN /home/th2-python-service-generator/bin/th2-python-service-generator -p ./src/main/proto -w PythonServiceWriter -o ./src/gen/main/python
 
 FROM python:3.8-slim as python
+ARG PYPI_REPOSITORY_URL
+ARG PYPI_USER
+ARG PYPI_PASSWORD
 WORKDIR /home/grpc-generator
 COPY --from=generator /home/grpc-generator .
 RUN pip install .
-RUN python setup.py build_proto_modules
+RUN python setup.py generate
 RUN python setup.py sdist
-RUN twine upload --repository-url $PYPI_REPOSITORY_URL --username $PYPI_USER --password $PYPI_PASSWORD dist/*
+RUN twine upload --repository-url ${PYPI_REPOSITORY_URL} --username ${PYPI_USER} --password ${PYPI_PASSWORD} dist/*
