@@ -1,16 +1,16 @@
 # GRPC Generator Template
 
-### Current supported languages: Java, Python
+## Current supported languages: Java, Python
 
 This tool generates code from `.proto` files and upload constructed packages (`.proto` files with generated code) to desired repositories.
 
 ### How to use:
 Place your own `.proto` files under `src/main/proto` directory and remove example files (`Foo.proto` and `Bar.proto`).
 
-####For Java: 
+#### For Java: 
 - Edit `publishing` section in `build.gradle` (by default it's published to `shared` dir in project root) file in order to specify the desired repository.
 
-####For Python
+#### For Python
 - Edit `package_name` variable in `setup.py`. This will be the name of your package.
 You can also edit other parameters of `setup.py` in `setup` function invocation such as: `url`, `author`, `author_email`, `description`, `long_description`. Do not edit the others. 
 
@@ -25,7 +25,7 @@ docker build \
 Where `URL`, `USER`, `PASSWORD` are parameters for publishing Python part.
 
 
-####`Publishing` section example for `build.gradle` file:
+#### `Publishing` section example for `build.gradle` file:
 ```
 publishing {
     publications {
