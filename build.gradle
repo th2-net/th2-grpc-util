@@ -14,6 +14,7 @@ buildscript {
 }
 
 apply plugin: "java"
+apply plugin: "java-library"
 apply plugin: "com.google.protobuf"
 apply plugin: "com.exactpro.th2.service-generator"
 apply plugin: "maven-publish"
@@ -35,10 +36,16 @@ repositories {
         name 'Artifactory snapshot'
         url 'http://artifactory5.exp.exactpro.com/artifactory/libs-release'
     }
+    maven {
+        name 'Artifactory release'
+        url 'http://artifactory5.exp.exactpro.com/artifactory/libs-release'
+    }
     mavenLocal()
 }
 
 dependencies {
+    api platform('com.exactpro.th2:th2-bom:1.0.4')
+
     compile "com.google.protobuf:protobuf-java-util:${protobufVersion}"
     compile "io.grpc:grpc-protobuf:${grpcVersion}"
     compile "io.grpc:grpc-stub:${grpcVersion}"
