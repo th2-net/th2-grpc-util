@@ -12,6 +12,8 @@ FROM python:3.8-slim as python
 ARG PYPI_REPOSITORY_URL
 ARG PYPI_USER
 ARG PYPI_PASSWORD
+ARG app_name
+ARG app_version
 WORKDIR /home/grpc-generator
 COPY --from=generator /home/grpc-generator .
 RUN pip install .
