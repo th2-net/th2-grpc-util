@@ -79,11 +79,6 @@ package_name = 'grpc-generator-template'
 setup(
     name=package_name,
     version=f"1.0",
-    install_requires=[
-        'grpcio-tools',
-        'google-api-core',
-        'twine'
-    ],
     url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/grpc-generator-template',
     license='Apache License 2.0',
     author='TH2-devs',
