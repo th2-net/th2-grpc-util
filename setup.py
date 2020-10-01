@@ -74,7 +74,7 @@ class CustomDist(sdist):
         shutil.rmtree(package_name, ignore_errors=True)
 
 
-package_name = 'grpc-generator-template'
+package_name = 'grpc_generator_template'
 
 setup(
     name=package_name,
