@@ -1,0 +1,11 @@
+variables:
+  APP_NAME: "grpc-generator-template"
+  MAJOR_VERSION: "1"
+  MINOR_VERSION: "1"
+  MAINTENANCE_VERSION: '0'
+  BUILD_ENABLED: 'false'
+
+include:
+  - project: 'vivarium/th2/pipelines'
+    ref: python-pipeline-docker
+    file: '/.gitlab-ci-python.yml'
