@@ -1,7 +1,7 @@
 FROM gradle:6.6-jdk11 as builder
 WORKDIR /home/grpc-generator-template
 COPY . .
-RUN gradle clean publish
+RUN gradle publish
 
 FROM nexus.exactpro.com:9000/th2-python-service-generator:1.0.8.5 as generator
 WORKDIR /home/grpc-generator-template
@@ -16,5 +16,7 @@ WORKDIR /home/grpc-generator-template
 COPY --from=generator /home/grpc-generator-template .
 RUN pip install -r requirements.txt
 RUN python setup.py generate
+RUN touch src/gen/main/python/__init__.py
+RUN 2to3 src/gen/main/python -w -n
 RUN python setup.py sdist
 RUN twine upload --repository-url ${PYPI_REPOSITORY_URL} --username ${PYPI_USER} --password ${PYPI_PASSWORD} dist/*
