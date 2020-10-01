@@ -18,6 +18,7 @@ import shutil
 import pkg_resources
 import os
 from setuptools import setup, find_packages
+from os import environ
 
 
 class ProtoGenerator(Command):
@@ -77,8 +78,8 @@ class CustomDist(sdist):
 package_name = 'grpc-generator-template'
 
 setup(
-    name=package_name,
-    version=f"1.0",
+    name=environ['APP_NAME'] if 'APP_NAME' in environ else package_name,
+    version=environ['APP_VERSION'] if 'APP_VERSION' in environ else "1.0",
     install_requires=[
         'grpcio-tools',
         'google-api-core',
