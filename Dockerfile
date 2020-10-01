@@ -16,7 +16,7 @@ ARG app_name
 ARG app_version
 WORKDIR /home/grpc-generator
 COPY --from=generator /home/grpc-generator .
-RUN pip install -U twine
+RUN pip install . -U twine
 RUN python setup.py generate
 RUN python setup.py sdist
 RUN twine upload --repository-url ${PYPI_REPOSITORY_URL} --username ${PYPI_USER} --password ${PYPI_PASSWORD} dist/*
