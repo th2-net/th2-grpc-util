@@ -18,7 +18,6 @@ import shutil
 import pkg_resources
 import os
 from setuptools import setup, find_packages
-from os import environ
 
 
 class ProtoGenerator(Command):
@@ -75,16 +74,11 @@ class CustomDist(sdist):
         shutil.rmtree(package_name, ignore_errors=True)
 
 
-package_name = environ['APP_NAME'] if 'APP_NAME' in environ else 'grpc-generator-template'
+package_name = 'grpc-generator-template'
 
 setup(
     name=package_name,
-    version=environ['APP_VERSION'] if 'APP_VERSION' in environ else "1.0",
-    install_requires=[
-        'grpcio-tools',
-        'google-api-core',
-        'twine'
-    ],
+    version=f"1.0",
     url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/grpc-generator-template',
     license='Apache License 2.0',
     author='TH2-devs',
