@@ -23,7 +23,7 @@ apply plugin: "com.exactpro.th2.service-generator"
 apply plugin: "maven-publish"
 
 group = 'com.exactpro.th2'
-version = release_version
+version = "${release_version}"
 
 sourceCompatibility = 11
 targetCompatibility = 11
