@@ -76,10 +76,11 @@ class CustomDist(sdist):
 
 
 package_name = environ['APP_NAME'] if 'APP_NAME' in environ else 'grpc-generator-template'
+package_version = environ['APP_VERSION'] if 'APP_VERSION' in environ else '1.0'
 
 setup(
     name=package_name,
-    version=environ['APP_VERSION'] if 'APP_VERSION' in environ else "1.0",
+    version=package_version,
     url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/grpc-generator-template',
     license='Apache License 2.0',
     author='TH2-devs',
