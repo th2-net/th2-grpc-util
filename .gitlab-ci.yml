@@ -7,5 +7,5 @@ variables:
 
 include:
   - project: 'vivarium/th2/pipelines'
-    ref: python-pipeline-docker
+    ref: master
     file: '/.gitlab-ci-python.yml'
