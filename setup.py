@@ -67,15 +67,15 @@ class CustomDist(sdist):
     def run(self):
         package_name = self.distribution.metadata.name
 
-        shutil.copytree('src/main/proto', f'{package_name}/proto')
-        shutil.copytree('src/gen/main/python', f'{package_name}/grpc')
+        shutil.copytree('src/main/proto/th2', f'{package_name}/proto')
+        shutil.copytree('src/gen/main/python/th2', f'{package_name}/grpc')
 
         sdist.run(self)
 
         shutil.rmtree(package_name, ignore_errors=True)
 
 
-package_name = environ['APP_NAME'] if 'APP_NAME' in environ else 'grpc-generator-template'
+package_name = environ['APP_NAME'] if 'APP_NAME' in environ else 'grpc_generator_template'
 package_version = environ['APP_VERSION'] if 'APP_VERSION' in environ else '1.0'
 
 setup(
