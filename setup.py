@@ -75,7 +75,7 @@ class CustomDist(sdist):
         shutil.rmtree(package_name, ignore_errors=True)
 
 
-package_name = environ['APP_NAME'] if 'APP_NAME' in environ else 'grpc_generator_template'
+package_name = environ['APP_NAME'].replace('-', '_') if 'APP_NAME' in environ else 'grpc_generator_template'
 package_version = environ['APP_VERSION'] if 'APP_VERSION' in environ else '1.0'
 
 setup(
