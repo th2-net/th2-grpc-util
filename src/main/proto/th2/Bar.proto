@@ -16,7 +16,7 @@
 
 syntax = "proto3";
 
-import "Foo.proto";
+import "th2/Foo.proto";
 import "google/protobuf/empty.proto";
 
 option java_multiple_files = true;
