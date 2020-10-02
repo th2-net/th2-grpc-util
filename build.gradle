@@ -47,6 +47,12 @@ repositories {
         url 'http://artifactory5.exp.exactpro.com/artifactory/libs-release'
     }
     mavenLocal()
+
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+    }
+
 }
 
 dependencies {
