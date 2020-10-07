@@ -2,7 +2,7 @@ variables:
   APP_NAME: "grpc-generator"
   MAJOR_VERSION: "1"
   MINOR_VERSION: "1"
-  MAINTENANCE_VERSION: '8'
+  MAINTENANCE_VERSION: '9'
   DOCKER_PUBLISH_ENABLED: 'false'
 
 include:
