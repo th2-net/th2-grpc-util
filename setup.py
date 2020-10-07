@@ -67,9 +67,9 @@ class ProtoGenerator(Command):
 class CustomDist(sdist):
 
     def run(self):
-        shutil.copytree('src/main/proto/th2', f'{package_name}/th2')
+        shutil.copytree('src/main/proto', f'{package_name}/proto')
 
-        shutil.copytree('src/gen/main/python/th2', f'{package_name}/grpc')
+        shutil.copytree('src/gen/main/python', f'{package_name}/grpc')
         Path(f'{package_name}/grpc/__init__.py').touch()
         convert2to3('lib2to3.fixes', [f'{package_name}/grpc', '-w', '-n'])
 
@@ -99,8 +99,8 @@ setup(
     author_email='th2-devs@exactprosystems.com',
     description='grpc-generator-template',
     long_description=long_description,
-    packages=['', package_name, f'{package_name}/th2', f'{package_name}/grpc'],
-    package_data={'': ['version.info'], f'{package_name}/th2': ['*.proto']},
+    packages=['', package_name, f'{package_name}/proto', f'{package_name}/grpc'],
+    package_data={'': ['version.info'], f'{package_name}/proto': ['*.proto']},
     cmdclass={
         'generate': ProtoGenerator,
         'sdist': CustomDist
