@@ -15,7 +15,7 @@
 from distutils.cmd import Command
 from setuptools.command.sdist import sdist
 import shutil
-import pkg_resources
+from pkg_resources import resource_filename
 import os
 from setuptools import setup, find_packages
 from os import environ
