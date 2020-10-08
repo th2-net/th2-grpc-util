@@ -14,6 +14,7 @@ Do not edit the others.
 4. Place your own `.proto` files in created directory.
 5. Edit imports in your `.proto` files so that they look like <br>
 `import "{package_name}/{proto_file_name}.proto"`
+6. Edit paths in `python-service-generator` stage in Dockerfile. They should correspond to the project structure.
 
 #### Docker
 You can run everything via Docker:
