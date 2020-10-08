@@ -14,6 +14,7 @@
 
 from distutils.cmd import Command
 from setuptools.command.sdist import sdist
+from distutils.dir_util import copy_tree
 import shutil
 from pkg_resources import resource_filename
 import os
@@ -67,13 +68,11 @@ class ProtoGenerator(Command):
 class CustomDist(sdist):
 
     def run(self):
-        shutil.copytree('src/main/proto', f'{package_name}/proto')
+        copy_tree(f'src/main/proto/{package_name}', f'{package_name}')
 
-        shutil.copytree('src/gen/main/python', f'{package_name}/grpc')
-        Path(f'{package_name}/grpc/__init__.py').touch()
-        convert2to3('lib2to3.fixes', [f'{package_name}/grpc', '-w', '-n'])
-
+        copy_tree(f'src/gen/main/python/{package_name}', f'{package_name}')
         Path(f'{package_name}/__init__.py').touch()
+        convert2to3('lib2to3.fixes', [f'{package_name}', '-w', '-n'])
 
         sdist.run(self)
 
@@ -99,8 +98,8 @@ setup(
     author_email='th2-devs@exactprosystems.com',
     description='grpc-generator-template',
     long_description=long_description,
-    packages=['', package_name, f'{package_name}/proto', f'{package_name}/grpc'],
-    package_data={'': ['version.info'], f'{package_name}/proto': ['*.proto']},
+    packages=['', package_name],
+    package_data={'': ['version.info'], package_name: ['*.proto']},
     cmdclass={
         'generate': ProtoGenerator,
         'sdist': CustomDist
