@@ -17,6 +17,7 @@ from setuptools.command.sdist import sdist
 from distutils.dir_util import copy_tree
 import shutil
 from pkg_resources import resource_filename
+from distutils.sysconfig import get_python_lib
 import os
 from setuptools import setup, find_packages
 from os import environ
@@ -51,7 +52,8 @@ class ProtoGenerator(Command):
 
         protos = [('grpc_tools', '_proto')]
         protos_include = [f'--proto_path={proto_path}'] + \
-                         [f'--proto_path={resource_filename(x[0], x[1])}' for x in protos]
+                         [f'--proto_path={resource_filename(x[0], x[1])}' for x in protos] + \
+                         [f'--proto_path={get_python_lib()}']
 
         from grpc_tools import protoc
         for proto_file in proto_files:
@@ -79,7 +81,7 @@ class CustomDist(sdist):
         shutil.rmtree(package_name, ignore_errors=True)
 
 
-package_name = 'grpc_generator_template'
+package_name = 'grpc_util'
 
 with open('version.info', 'r') as file:
     package_version = file.read()
@@ -91,12 +93,12 @@ with open('README.md', 'r') as file:
 setup(
     name=package_name,
     version=package_version,
-    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/grpc-generator-template',
+    url='https://gitlab.exactpro.com/vivarium/th2/th2-core-open-source/th2-grpc-util',
     license='Apache License 2.0',
     author='TH2-devs',
     python_requires='>=3.7',
     author_email='th2-devs@exactprosystems.com',
-    description='grpc-generator-template',
+    description='grpc-util',
     long_description=long_description,
     packages=['', package_name],
     package_data={'': ['version.info'], package_name: ['*.proto']},
