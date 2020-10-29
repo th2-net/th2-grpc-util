@@ -1,8 +1,8 @@
 variables:
   APP_NAME: "grpc-util"
   MAJOR_VERSION: "2"
-  MINOR_VERSION: "0"
-  MAINTENANCE_VERSION: '1'
+  MINOR_VERSION: "1"
+  MAINTENANCE_VERSION: '0'
   DOCKER_PUBLISH_ENABLED: 'false'
 
 include:
@@ -26,6 +26,7 @@ build:
       --build-arg pypi_repository_url=${PYPI_REPOSITORY_URL}
       --build-arg pypi_user=${PYPI_USER}
       --build-arg pypi_password=${PYPI_PASSWORD}
+      --build-arg app_name=${APP_NAME}
       --build-arg app_version=${APP_VERSION}
   dependencies:
     - makeMetaEnv
