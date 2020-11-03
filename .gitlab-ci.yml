@@ -1,8 +1,8 @@
 variables:
-  APP_NAME: "grpc-util"
+  APP_NAME: "th2-grpc-util"
   MAJOR_VERSION: "2"
   MINOR_VERSION: "2"
-  MAINTENANCE_VERSION: '1'
+  MAINTENANCE_VERSION: '2'
   DOCKER_PUBLISH_ENABLED: 'false'
 
 include:
