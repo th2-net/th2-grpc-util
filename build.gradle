@@ -138,16 +138,6 @@ publishing {
             url = sharedDir
         }
     }
-    repositories {
-        maven {
-            name = 'nexusRepository'
-            credentials {
-                username = "${nexus_user}"
-                password = "${nexus_password}"
-            }
-            url = "${nexus_url}"
-        }
-    }
 }
 
 bintray {
