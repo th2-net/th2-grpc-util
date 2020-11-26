@@ -12,24 +12,23 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from setuptools import setup
 import json
-from distutils.cmd import Command
 import os
-from pkg_resources import resource_filename
-from distutils.sysconfig import get_python_lib
-from setuptools.command.sdist import sdist
+from distutils.cmd import Command
 from distutils.dir_util import copy_tree
-from shutil import rmtree
+from distutils.sysconfig import get_python_lib
 from pathlib import Path
-from lib2to3.main import main as convert2to3
+from shutil import rmtree
+
+from pkg_resources import resource_filename
+from setuptools import setup, find_packages
+from setuptools.command.sdist import sdist
 
 
 class ProtoGenerator(Command):
 
     description = 'build protobuf modules'
-    user_options = [('strict-mode', 's',
-                     'exit with non-zero value if the proto compiling fails.')]
+    user_options = [('strict-mode', 's', 'exit with non-zero value if the proto compiling fails')]
 
     def initialize_options(self):
         self.strict_mode = False
@@ -64,7 +63,7 @@ class ProtoGenerator(Command):
 
             if protoc.main(command) != 0:
                 if self.strict_mode:
-                    raise Exception('error: {} failed'.format(command))
+                    raise Exception(f'error: {command} failed')
 
 
 class CustomDist(sdist):
@@ -74,7 +73,18 @@ class CustomDist(sdist):
 
         copy_tree(f'src/gen/main/python/{package_name}', package_name)
         Path(f'{package_name}/__init__.py').touch()
-        convert2to3('lib2to3.fixes', [package_name, '-w', '-n'])
+
+        def make_packages(root_dir):
+            for path in Path(root_dir).iterdir():
+                if path.is_dir():
+                    path.joinpath('__init__.py').touch()
+                    make_packages(path)
+
+        make_packages(package_name)
+
+        self.distribution.packages = [''] + find_packages(include=[package_name, f'{package_name}.*'])
+        self.distribution.package_data = {'': ['package_info.json'],
+                                          **dict.fromkeys(self.distribution.packages[1:], ['*.proto'])}
 
         sdist.run(self)
 
@@ -90,6 +100,9 @@ package_version = package_info['package_version']
 with open('README.md', 'r') as file:
     long_description = file.read()
 
+packages = [''] + find_packages(include=[package_name, f'{package_name}.*'])
+package_data = {'': ['package_info.json'], **dict.fromkeys(packages[1:], ['*.proto'])}
+
 
 setup(
     name=package_name,
@@ -103,10 +116,10 @@ setup(
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        'th2-grpc-common==2.3.1'
+        'th2-grpc-common~=2.3.5'
     ],
-    packages=['', package_name],
-    package_data={'': ['package_info.json'], package_name: ['*.proto']},
+    packages=packages,
+    package_data=package_data,
     cmdclass={
         'generate': ProtoGenerator,
         'sdist': CustomDist
