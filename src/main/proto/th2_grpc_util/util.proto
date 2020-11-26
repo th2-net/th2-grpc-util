@@ -23,7 +23,7 @@ import "th2_grpc_common/common.proto";
 option java_multiple_files = true;
 option java_package = "com.exactpro.th2.util.grpc";
 
-service MessageComparatorService {
+service MessageComparator {
   // Compares a filter vs passed messages and returns comparison result for every pair.
   rpc compareFilterVsMessages (CompareFilterVsMessagesRequest) returns (CompareFilterVsMessagesResponse);
   // Compares a message vs another message and returns a comparison result.
