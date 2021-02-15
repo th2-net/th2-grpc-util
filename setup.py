@@ -26,7 +26,6 @@ from setuptools.command.sdist import sdist
 
 
 class ProtoGenerator(Command):
-
     description = 'build protobuf modules'
     user_options = [('strict-mode', 's', 'exit with non-zero value if the proto compiling fails')]
 
@@ -103,7 +102,6 @@ with open('README.md', 'r') as file:
 packages = [''] + find_packages(include=[package_name, f'{package_name}.*'])
 package_data = {'': ['package_info.json'], **dict.fromkeys(packages[1:], ['*.proto'])}
 
-
 setup(
     name=package_name,
     version=package_version,
@@ -116,7 +114,7 @@ setup(
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        'th2-grpc-common~=2.3.5'
+        'th2-grpc-common~=3.0.1'
     ],
     packages=packages,
     package_data=package_data,
