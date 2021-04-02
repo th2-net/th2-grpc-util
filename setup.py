@@ -1,4 +1,4 @@
-#   Copyright 2020-2020 Exactpro (Exactpro Systems Limited)
+#   Copyright 2020-2021 Exactpro (Exactpro Systems Limited)
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ class CustomDist(sdist):
         copy_tree(f'src/main/proto/{package_name}', package_name)
 
         copy_tree(f'src/gen/main/python/{package_name}', package_name)
+        copy_tree(f'src/gen/main/services/python/{package_name}', package_name)
         Path(f'{package_name}/__init__.py').touch()
 
         def make_packages(root_dir):
