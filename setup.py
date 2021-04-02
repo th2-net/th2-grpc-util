@@ -1,4 +1,4 @@
-#   Copyright 2020-2020 Exactpro (Exactpro Systems Limited)
+#   Copyright 2020-2021 Exactpro (Exactpro Systems Limited)
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -71,6 +71,7 @@ class CustomDist(sdist):
         copy_tree(f'src/main/proto/{package_name}', package_name)
 
         copy_tree(f'src/gen/main/python/{package_name}', package_name)
+        copy_tree(f'src/gen/main/services/python/{package_name}', package_name)
         Path(f'{package_name}/__init__.py').touch()
 
         def make_packages(root_dir):
@@ -114,7 +115,7 @@ setup(
     license='Apache License 2.0',
     python_requires='>=3.7',
     install_requires=[
-        'th2-grpc-common~=3.0.1'
+        'th2-grpc-common~=3.1.0'
     ],
     packages=packages,
     package_data=package_data,

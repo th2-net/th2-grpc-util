@@ -1,4 +1,4 @@
-# th2 gRPC util library
+# th2 gRPC util library (3.0.0)
 
 This library contains proto messages and `MessageComparator` service with RPC methods that are used in [th2 util](https://github.com/th2-net/th2-util "th2-util"). See [util.proto](src/main/proto/th2_grpc_util/util.proto "util.proto") file for details. <br>
 Tool generates code from `.proto` files and uploads built packages (`.proto` files and generated code) to specified repositories.
@@ -39,3 +39,9 @@ If you wish to manually create and publish package for Python:
     twine upload --repository-url ${PYPI_REPOSITORY_URL} --username ${PYPI_USER} --password ${PYPI_PASSWORD} dist/*
     ```
     `PYPI_REPOSITORY_URL`, `PYPI_USER` and `PYPI_PASSWORD` are parameters for publishing.
+
+## Changes
+
+### 3.0.0
+
++ Migrated to common V3
