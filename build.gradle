@@ -60,9 +60,9 @@ repositories {
 }
 
 dependencies {
-    api platform('com.exactpro.th2:bom:[2.3,)')
+    api platform('com.exactpro.th2:bom:2.10.1')
 
-    implementation "com.exactpro.th2:grpc-common"
+    api "com.exactpro.th2:grpc-common:2.5.0"
 
     api "com.google.protobuf:protobuf-java-util"
     api "io.grpc:grpc-stub"
@@ -75,7 +75,7 @@ dependencies {
 
     implementation "javax.annotation:javax.annotation-api:1.3.2"
 
-    implementation "com.exactpro.th2:grpc-service-generator:${serviceGeneratorVersion}"
+    api "com.exactpro.th2:grpc-service-generator:${serviceGeneratorVersion}"
 }
 
 sourceSets {
