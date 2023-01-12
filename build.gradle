@@ -205,3 +205,9 @@ signing {
 clean {
     delete genDir
 }
+
+configurations {
+    compileClasspath {
+        resolutionStrategy.activateDependencyLocking()
+    }
+}
